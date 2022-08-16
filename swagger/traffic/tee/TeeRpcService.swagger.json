@@ -1,0 +1,98 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TeeRpcService.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "TeeRpcService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "teeTeeTxHeader": {
+      "type": "object",
+      "properties": {
+        "busiId": {
+          "type": "string",
+          "title": "transaction id set by sender, should be unique"
+        },
+        "txId": {
+          "type": "string",
+          "title": "transaction txid"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "int64",
+          "title": "transaction timestamp, in unix timestamp format, seconds"
+        }
+      }
+    },
+    "teeTeeTxResponse": {
+      "type": "object",
+      "properties": {
+        "busiId": {
+          "type": "string"
+        },
+        "txId": {
+          "type": "string"
+        },
+        "code": {
+          "$ref": "#/definitions/teeTxStatusCode",
+          "title": "response code"
+        },
+        "message": {
+          "type": "string",
+          "title": "response message"
+        }
+      }
+    },
+    "teeTxStatusCode": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "EXEC_FAIL",
+        "PARTLY_EXEC_ERROR",
+        "TIMEOUT",
+        "INVALID_PARAMETER",
+        "NO_PERMISSION",
+        "INTERNAL_ERROR"
+      ],
+      "default": "SUCCESS"
+    }
+  }
+}
