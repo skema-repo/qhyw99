@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package traffic.tee;
+
+option go_package="github.com/skema-repo/qhyw99/grpc-go/traffic/tee";
+
+
+service TeeRpcService {
+	// processing transaction message requests
+	rpc SendRemoteTeeRequest(TeeTxRequest) returns (TeeTxResponse) {};
+}
+
+
+message TeeTxRequest {
+  // header of the request
+  TeeTxHeader header = 1;
+  // payload of the request, can be unmarshalled according to tx_type in header
+  bytes payload = 2;
+  // signature of [header bytes || payload bytes]
+  bytes signature = 3;
+}
+message TeeTxHeader {
+  // transaction id set by sender, should be unique
+  string busi_id = 1;
+  // transaction txid
+  string tx_id = 2;
+  // transaction timestamp, in unix timestamp format, seconds
+  int64 timestamp = 3;
+}
+message TeeTransactPayload {
+  // encrypto data
+  repeated bytes edata = 1;
+}
+enum TxStatusCode {
+  SUCCESS = 0;
+  EXEC_FAIL = 1;
+  PARTLY_EXEC_ERROR = 2;
+  TIMEOUT = 3;
+  INVALID_PARAMETER = 4;
+  NO_PERMISSION = 5;
+  INTERNAL_ERROR = 6;
+}
+message TeeTxResponse {
+  string busi_id = 1;
+  string tx_id = 2;
+  // response code
+  TxStatusCode code = 3;
+  // response message
+  string message = 4;
+}
