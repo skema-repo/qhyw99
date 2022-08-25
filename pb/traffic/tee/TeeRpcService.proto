@@ -54,6 +54,6 @@ message TeeTxResponse {
 // BAEC Remote TEE server API
 service TeeRpcService {
 	// processing transaction message requests
-	rpc SendRemoteTeeRequest(TeeTxRequest) returns (TeeTxResponse) {};
+	rpc SendRemoteTeeRequest(stream TeeTxRequest) returns (TeeTxResponse) {};
 
 }
